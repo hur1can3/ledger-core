@@ -181,7 +181,8 @@ namespace LedgerCore
             string testfile = @"/home/hur1can3/src/finance/ledger.dat";
 
             Ledger ledger = parseLedger(testfile);
-            ledger.PrintRegister();
+            //ledger.PrintRegister();
+            ledger.PrintBalance();
         }
     }
 }

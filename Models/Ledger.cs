@@ -67,10 +67,17 @@ namespace LedgerCore.Models
 
         public void PrintBalance()
         {
-            var acts = Journal.SelectMany(t => t.TransactionDetails).SelectMany(a => a.Accounts.First().Name).ToList();
+            var acts = Journal.SelectMany(t => t.TransactionDetails).Select(a => a.Accounts.First().Name).ToList();
 
+            var acts2 = acts.Select(a => a.Split(':')[1]).ToList();
             foreach(var act in acts) {
-                
+                string[] split = act.Split(':');
+
+                decimal acbal = GetBalanceForAccount(act);
+                Console.WriteLine($"{act}: {acbal:c}");
+
+
+               
             }
         }
 
