@@ -76,8 +76,6 @@ namespace LedgerCore.Models
                 decimal acbal = GetBalanceForAccount(act);
                 Console.WriteLine($"{act}: {acbal:c}");
 
-
-               
             }
         }
 

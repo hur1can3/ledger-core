@@ -8,6 +8,7 @@
     "System.Diagnostics.Contracts": "4.3.0",
     // "Sprache": "2.1.0",
     "Superpower": "1.0.0",
+    "TinyCsvParser": "1.6.0",
     "Colorful.Console": "1.0.7",
     "LiteDB": "3.0.0"
   },

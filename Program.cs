@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using LedgerCore.Data;
 using LedgerCore.Models;
 using LiteDB;
 //using Sprache;
 using Superpower;
 using Superpower.Parsers;
+using TinyCsvParser;
 
 namespace LedgerCore
 {
@@ -66,7 +68,7 @@ namespace LedgerCore
         {
             var context = new LiteDBContext<Ledger>("test.db", "ledgers");
 
-            var data = context.db.FindAll();        
+            var data = context.db.FindAll();
         }
 
 
@@ -165,8 +167,9 @@ namespace LedgerCore
             return l;
         }
 
-        private static void write(Ledger led) {
-                        using (var db = new LiteDatabase(@"test.db"))
+        private static void write(Ledger led)
+        {
+            using (var db = new LiteDatabase(@"test.db"))
             {
                 // Get a collection (or create, if doesn't exist)
                 var col = db.GetCollection<Ledger>("ledgers");
@@ -176,13 +179,95 @@ namespace LedgerCore
 
         }
 
+        public static void parseCSV(string csv)
+        {
+            var lines = System.IO.File.ReadAllLines(csv);
+
+            List<ImportModel> models = new List<ImportModel>();
+            foreach (var line in lines.Skip(1))
+            {
+                string[] split = line.Split(',');
+
+                TextParser<string> dateid =
+                                             from month in Character.Digit.Many()
+                                             from sep2 in Character.EqualTo('/')
+                                             from day in Character.Digit.Many()
+                                             from sep in Character.EqualTo('/')
+                                             from year in Character.Digit.Many()
+                                             select new string(year.Append(sep).Concat(month).Append(sep2).Concat(day).ToArray());
+
+                TextParser<string> refid = from digits in Character.Digit.Many()
+                                           select new string(digits);
+
+                TextParser<string> payeeid = from letters in Character.AnyChar.Many().AtEnd()
+                                             select new string(letters);
+
+                TextParser<string> memo1id = from l in Character.AnyChar.Many()
+                                             from tref in Character.Digit.Many().AtEnd()
+                                             select new string(tref);
+
+                TextParser<string> memo2id =
+                                            from tref in Character.AnyChar.Many().AtEnd()
+                                            select new string(tref);
+
+                TextParser<string> amountid = from dollar in Character.AnyChar.Many().AtEnd()
+                                              select new string(dollar.ToArray());
+
+                var date = dateid.Parse(split[0]);
+                var refnum = refid.Parse(split[1]);
+                var payeename = payeeid.Parse(split[2]);
+                var memonames = memo2id.TryParse(split[3]);
+                var memorefs = memo1id.TryParse(split[3]);
+                var amount = amountid.Parse(split[4]);
+
+                if (refnum == "0")
+                {
+                    if (memorefs.HasValue)
+                    {
+                        refnum = memorefs.Value;
+                    }
+                }
+                ImportModel im = new ImportModel() { Date = DateTime.Parse(date), ReferenceNumber = refnum, PayeeName = payeename, Memo = (memonames.HasValue ? memonames.Value : string.Empty), Amount = decimal.Parse(amount) };
+
+                if (memonames.HasValue)
+                {
+                    foreach (var c in im.CategoryList)
+                    {
+                        if (memonames.Value.Contains(c)) {
+                            im.CategoryName = c;
+                        }
+                    }
+
+                }
+
+                models.Add(im);
+            }
+        }
+
         public static void Main(string[] args)
         {
-            string testfile = @"/home/hur1can3/src/finance/ledger.dat";
+            //string testfile = @"ledger.dat";
 
-            Ledger ledger = parseLedger(testfile);
+            //Ledger ledger = parseLedger(testfile);
             //ledger.PrintRegister();
-            ledger.PrintBalance();
+            //ledger.PrintBalance();
+
+            string file1 = @"C:\src\finance\dat\20160712-0811.csv";
+
+            // CsvParserOptions csvParserOptions = new CsvParserOptions(true, new[] { ',' });
+
+            // ImportModelMapping csvMapper = new ImportModelMapping();
+            // CsvParser<ImportModel> csvParser = new CsvParser<ImportModel>(csvParserOptions, csvMapper);
+
+            // var result = csvParser
+            //     .ReadFromFile(file1, Encoding.ASCII)
+            //     .ToList();
+
+
+            parseCSV(file1);
+            Console.Write("done");
+
+
         }
     }
 }
