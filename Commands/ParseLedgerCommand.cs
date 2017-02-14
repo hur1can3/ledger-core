@@ -68,8 +68,13 @@ namespace LedgerCore.Commands
 
                         t.Date = DateTime.Parse (date);
 
+                        TextParser<char> asteriskid = from first in dateid
+                                                      from ast in Character.EqualTo('*')
+                                                      select ast; 
+
+
                         TextParser<string> payeeid =
-                            from first in dateid
+                            from first in asteriskid
                         from space in Character.WhiteSpace.Many ()
                         from payee in Character.AnyChar.Many ().AtEnd ()
                         select new string (payee.ToArray ());
