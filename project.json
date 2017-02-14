@@ -2,11 +2,12 @@
   "version": "1.0.0-*",
   "buildOptions": {
     "debugType": "portable",
-    "emitEntryPoint": true
+    "emitEntryPoint": true,
+    "outputName": "ledger-core"
   },
   "dependencies": {
+    "Microsoft.Extensions.CommandLineUtils": "1.1.0",
     "System.Diagnostics.Contracts": "4.3.0",
-    // "Sprache": "2.1.0",
     "Superpower": "1.0.0",
     "TinyCsvParser": "1.6.0",
     "Colorful.Console": "1.0.7",
