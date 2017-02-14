@@ -6,7 +6,7 @@ Copyright (c) Martin Porter.
 using System;
 using System.Runtime.InteropServices;
 
-namespace LedgerCore.DocumentResolver
+namespace MWL.DocumentResolver
 {
 	internal interface StemmerInterface 
 	{

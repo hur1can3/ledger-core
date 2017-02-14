@@ -30,15 +30,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
+using System;
 using System.Collections.Generic;
 
-namespace LedgerCore.DocumentResolver
+namespace MWL.DocumentResolver
 {
     #region Interfaces
-    /// <summary>
-    /// Classifier methods.
-    /// </summary>
-    internal interface IBayesClassifier
+	/// <summary>
+	/// Classifier methods.
+	/// </summary>
+	internal interface IBayesClassifier
 	{
 		/// <summary>
 		/// Trains this Category from a word or phrase<\summary>

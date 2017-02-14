@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
 
-namespace LedgerCore.DocumentResolver
+namespace MWL.DocumentResolver
 {
     internal interface IResolverEngine
     {

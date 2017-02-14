@@ -30,15 +30,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
+using System;
 using System.Collections.Generic;
 using System.Collections;
+using System.Text;
 using System.Text.RegularExpressions;
 
-namespace LedgerCore.DocumentResolver
+namespace MWL.DocumentResolver
 {
-    /// <summary>
-    /// Represents a Enumerable Bayesian category - that is contains a list of phrases with their occurence counts <\summary>
-    internal class BayesEnumerableCategory : BayesCategory, IEnumerable<KeyValuePair<string, BayesPhraseCount>>
+	/// <summary>
+	/// Represents a Enumerable Bayesian category - that is contains a list of phrases with their occurence counts <\summary>
+	internal class BayesEnumerableCategory : BayesCategory, IEnumerable<KeyValuePair<string, BayesPhraseCount>>
 	{
 		public BayesEnumerableCategory(string Cat, StopWordsHandler Excluded) : base(Cat, Excluded)
 		{

@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LedgerCore.DocumentResolver
+namespace MWL.DocumentResolver
 {
 	/// <summary>
 	/// Summary description for TF_IDFLib.

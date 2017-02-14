@@ -5,17 +5,18 @@ Copyright (c) 2005 by Thanh Ngoc Dao.
 */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 
-namespace LedgerCore.DocumentResolver
+namespace MWL.DocumentResolver
 {
-    /// <summary>
-    /// Summary description for Tokeniser.
-    /// Partition string into SUBwords
-    /// </summary>
-    internal class Tokeniser
+	/// <summary>
+	/// Summary description for Tokeniser.
+	/// Partition string into SUBwords
+	/// </summary>
+	internal class Tokeniser
 	{
 		public List<string> Partition(string input, StopWordsHandler stopWords, bool useWordStemmer = false)
 		{

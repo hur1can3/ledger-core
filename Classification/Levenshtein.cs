@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LedgerCore.DocumentResolver
+namespace MWL.DocumentResolver
 {
     internal class Levenshtein
     {

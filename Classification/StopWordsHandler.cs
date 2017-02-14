@@ -2,16 +2,18 @@
 StopWordsHandler
 Original Author: Thanh Ngoc Dao - Thanh.dao@gmx.net
 */
+using System;
+using System.Collections;
 using System.Collections.Generic;
 
-namespace LedgerCore.DocumentResolver
+namespace MWL.DocumentResolver
 {
-    /// <summary>
-    /// Stop words are frequently occurring, insignificant words words 
-    /// that appear in a database record, article or web page. 
-    /// Common stop words include
-    /// </summary>
-    internal class StopWordsHandler
+	/// <summary>
+	/// Stop words are frequently occurring, insignificant words words 
+	/// that appear in a database record, article or web page. 
+	/// Common stop words include
+	/// </summary>
+	internal class StopWordsHandler
 	{		
 		public static string[] stopWordsList=new string[] {
 			                                                 "a", "an", "and", "are", "as", "at", 

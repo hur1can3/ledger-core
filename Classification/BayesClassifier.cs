@@ -30,16 +30,18 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
+using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace LedgerCore.DocumentResolver
+namespace MWL.DocumentResolver
 {
-    /// <summary>
-    /// Naive Bayesian classifier</summary>
-    /// <remarks>
-    /// It suppports exclusion of words but not Phrases 
-    /// </remarks>
-    internal class BayesClassifier : IBayesClassifier
+	/// <summary>
+	/// Naive Bayesian classifier</summary>
+	/// <remarks>
+	/// It suppports exclusion of words but not Phrases 
+	/// </remarks>
+	internal class BayesClassifier : IBayesClassifier
 	{
 		Dictionary<string, IBayesCategory> m_Categories;
 		StopWordsHandler m_ExcludedWords;

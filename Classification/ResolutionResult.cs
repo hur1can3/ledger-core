@@ -1,4 +1,4 @@
-﻿namespace LedgerCore.DocumentResolver
+﻿namespace MWL.DocumentResolver
 {
     public class ResolutionResult
     {

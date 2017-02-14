@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Text;
 using LedgerCore.Data;
 using LedgerCore.Models;
 using LiteDB;
+using MWL.DocumentResolver;
 //using Sprache;
 using Superpower;
 using Superpower.Parsers;
-using TinyCsvParser;
 
 namespace LedgerCore
 {
@@ -182,8 +180,12 @@ namespace LedgerCore
         public static void parseCSV(string csv)
         {
             var lines = System.IO.File.ReadAllLines(csv);
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+
+
 
             List<ImportModel> models = new List<ImportModel>();
+            int index = 0;
             foreach (var line in lines.Skip(1))
             {
                 string[] split = line.Split(',');
@@ -233,14 +235,39 @@ namespace LedgerCore
                 {
                     foreach (var c in im.CategoryList)
                     {
-                        if (memonames.Value.Contains(c)) {
+                        if (memonames.Value.Contains(c))
+                        {
                             im.CategoryName = c;
                         }
                     }
 
                 }
 
+                if(string.IsNullOrEmpty(im.PayeeName)) {
+                    im.PayeeName = im.Memo;
+                }
+
+                if (index == 0)
+                {
+                    dict.Add(index.ToString(), im.PayeeName);
+                }
+                else
+                {
+                    // Initialize an instance of the resolver
+                    DocumentResolver resolver = new DocumentResolver(dict);
+                    resolver.SetEngine(DocumentResolver.EngineType.BayesTFIDF);
+                    List<ResolutionResult> resolutionResults = resolver.Resolve(im.PayeeName, true);
+                    foreach (ResolutionResult resolutionResult in resolutionResults)
+                    {
+                        Console.WriteLine(string.Format("{0} {1} {2}\r\n", resolutionResult.Score.ToString(), resolutionResult.Key, resolutionResult.Document));
+
+                        //System.IO.File.AppendAllText(outputfile, string.Format("{0} {1} {2}\r\n", resolutionResult.Score.ToString(), resolutionResult.Key, resolutionResult.Document));
+                    }
+                    dict.Add(index.ToString(), im.PayeeName);
+                }
+
                 models.Add(im);
+                index++;
             }
         }
 
